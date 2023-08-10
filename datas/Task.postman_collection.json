@@ -1,0 +1,132 @@
+{
+	"info": {
+		"_postman_id": "3df8f40b-5537-4b1d-97a3-1d5eb738ad34",
+		"name": "Task",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "RegisterUser",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"phone_number\":\"+99362658420\",\n    \"password\":\"123\"\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "localhost:4444/api/resgiter",
+					"host": [
+						"localhost"
+					],
+					"port": "4444",
+					"path": [
+						"api",
+						"resgiter"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "LoginUser",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"phone_number\":\"+99362420377\",\n    \"password\":\"123\"\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "localhost:4444/api/login",
+					"host": [
+						"localhost"
+					],
+					"port": "4444",
+					"path": [
+						"api",
+						"login"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "GetLessons",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJwaG9uZV9udW1iZXIiOiIrOTkzNjI0MjAzNzciLCJ1c2VyX2lkIjoiZWI0MjJhOGUtMzE2NC00NzA5LThjNzAtN2YyM2ZkYmQ5Y2QzIiwiZXhwIjoxNjkxNjYzMTQ3fQ.T79cif1sYybjM0UKIkpXSbn55BYuusJWFHZ107ghHXc",
+							"type": "string"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "localhost:4444/api/lessons",
+					"host": [
+						"localhost"
+					],
+					"port": "4444",
+					"path": [
+						"api",
+						"lessons"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "UpdateLessons",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJwaG9uZV9udW1iZXIiOiIrOTkzNjI0MjAzNzciLCJ1c2VyX2lkIjoiZWI0MjJhOGUtMzE2NC00NzA5LThjNzAtN2YyM2ZkYmQ5Y2QzIiwiZXhwIjoxNjkxNjYzMTQ3fQ.T79cif1sYybjM0UKIkpXSbn55BYuusJWFHZ107ghHXc",
+							"type": "string"
+						}
+					]
+				},
+				"method": "PUT",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "    [    \n        {\n            \"day\": 1,\n            \"lessons\": [\n                {\n                    \"order_number\": 1,\n                    \"name\": \"matematike\"\n                },\n                {\n                    \"order_number\": 2,\n                    \"name\": \"biologiya\"\n                },\n                {\n                    \"order_number\": 3,\n                    \"name\": \"bedenterbiye\"\n                },\n                {\n                    \"order_number\": 4,\n                    \"name\": \"null\"\n                },\n                {\n                    \"order_number\": 5,\n                    \"name\": \"null\"\n                },\n                {\n                    \"order_number\": 6,\n                    \"name\": \"taryh\"\n                }\n            ]\n        },\n        {\n            \"day\": 2,\n            \"lessons\": [\n                {\n                    \"order_number\": 1,\n                    \"name\": \"taryh\"\n                },\n                {\n                    \"order_number\": 2,\n                    \"name\": \"null\"\n                },\n                {\n                    \"order_number\": 3,\n                    \"name\": \"null\"\n                },\n                {\n                    \"order_number\": 4,\n                    \"name\": \"yasayys durmus\"\n                },\n                {\n                    \"order_number\": 5,\n                    \"name\": \"fizika\"\n                },\n                {\n                    \"order_number\": 6,\n                    \"name\": \"synp sagat\"\n                }\n            ]\n        },\n        {\n            \"day\": 3,\n            \"lessons\": [\n                {\n                    \"order_number\": 1,\n                    \"name\": \"fizika\"\n                },\n                {\n                    \"order_number\": 2,\n                    \"name\": \"informatika\"\n                },\n                {\n                    \"order_number\": 3,\n                    \"name\": \"bedenterbiye\"\n                },\n                {\n                    \"order_number\": 4,\n                    \"name\": \"null\"\n                },\n                {\n                    \"order_number\": 5,\n                    \"name\": \"informatika\"\n                },\n                {\n                    \"order_number\": 6,\n                    \"name\": \"inlis dili\"\n                }\n            ]\n        },\n        {\n            \"day\": 4,\n            \"lessons\": [\n                {\n                    \"order_number\": 1,\n                    \"name\": \"inlis dili\"\n                },\n                {\n                    \"order_number\": 2,\n                    \"name\": \"rus dili\"\n                },\n                {\n                    \"order_number\": 3,\n                    \"name\": \"null\"\n                },\n                {\n                    \"order_number\": 4,\n                    \"name\": \"null\"\n                },\n                {\n                    \"order_number\": 5,\n                    \"name\": \"matematika\"\n                },\n                {\n                    \"order_number\": 6,\n                    \"name\": \"turkmen dili\"\n                }\n            ]\n        },\n        {\n            \"day\": 5,\n            \"lessons\": [\n                {\n                    \"order_number\": 1,\n                    \"name\": \"turkmen dili\"\n                },\n                {\n                    \"order_number\": 2,\n                    \"name\": \"rus dili\"\n                },\n                {\n                    \"order_number\": 3,\n                    \"name\": \"fizika\"\n                },\n                {\n                    \"order_number\": 4,\n                    \"name\": \"null\"\n                },\n                {\n                    \"order_number\": 5,\n                    \"name\": \"informatika\"\n                },\n                {\n                    \"order_number\": 6,\n                    \"name\": \"null\"\n                }\n            ]\n        },\n        {\n            \"day\": 6,\n            \"lessons\": [\n                {\n                    \"order_number\": 1,\n                    \"name\": \"null\"\n                },\n                {\n                    \"order_number\": 2,\n                    \"name\": \"null\"\n                },\n                {\n                    \"order_number\": 3,\n                    \"name\": \"informatika\"\n                },\n                {\n                    \"order_number\": 4,\n                    \"name\": \"fizika\"\n                },\n                {\n                    \"order_number\": 5,\n                    \"name\": \"biologiya\"\n                },\n                {\n                    \"order_number\": 6,\n                    \"name\": \"informatika\"\n                }\n            ]\n        }\n    ]",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "localhost:4444/api/lessons",
+					"host": [
+						"localhost"
+					],
+					"port": "4444",
+					"path": [
+						"api",
+						"lessons"
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}
