@@ -30,7 +30,7 @@ func main() {
 	r.Static("/uploads", "./uploads")
 
 	// run routes
-	if err := r.Run(":7723"); err != nil {
+	if err := r.Run(":4444"); err != nil {
 		log.Fatal(err)
 	}
 }
