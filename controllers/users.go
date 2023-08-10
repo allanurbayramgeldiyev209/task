@@ -4,6 +4,9 @@ import (
 	"context"
 	"net/http"
 	"task/config"
+	"task/models"
+
+	"task/helpers"
 
 	"github.com/gin-gonic/gin"
 )
@@ -27,13 +30,13 @@ func RegisterUser(c *gin.Context) {
 	defer db.Close()
 
 	// request - den gelen maglumatlar alynyar
-	var customer models.Customer
-	if err := c.BindJSON(&customer); err != nil {
+	var user models.User
+	if err := c.BindJSON(&user); err != nil {
 		c.JSON(http.StatusBadRequest, err.Error())
 		return
 	}
 
-	if err := models.ValidateCustomer(customer.PhoneNumber, "", true); err != nil {
+	if err := models.ValidateUser(user.PhoneNumber, "", true); err != nil {
 		helpers.HandleError(c, 400, err.Error())
 		return
 	}
