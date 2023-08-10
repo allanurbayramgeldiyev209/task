@@ -184,3 +184,59 @@ func GetLessons(c *gin.Context) {
 	})
 
 }
+
+func UpdateLessons(c *gin.Context) {
+	db, err := config.ConnDB()
+	if err != nil {
+		helpers.HandleError(c, 400, err.Error())
+		return
+	}
+	defer db.Close()
+
+	usrID, hasUser := c.Get("user_id")
+	if !hasUser {
+		helpers.HandleError(c, 400, "user_id is required")
+		return
+	}
+	userID, ok := usrID.(string)
+	if !ok {
+		helpers.HandleError(c, 400, "user_id must be string")
+		return
+	}
+
+	// request - den maglumatlar alynyar
+	var lessons []LessonResponse
+	if err := c.BindJSON(&lessons); err != nil {
+		helpers.HandleError(c, 400, err.Error())
+		return
+	}
+
+	_, err = db.Exec(context.Background(), "DELETE FROM lessons WHERE user_id = $1", userID)
+	if err != nil {
+		helpers.HandleError(c, 400, err.Error())
+		return
+	}
+
+	for _, lesson := range lessons {
+		for _, v := range lesson.Lessons {
+			var name interface{}
+			if v.Name == "null" {
+				name = nil
+			} else {
+				name = v.Name
+			}
+
+			_, err := db.Exec(context.Background(), "INSERT INTO lessons (name,user_id,day_number,order_number) VALUES ($1,$2,$3,$4)", name, userID, lesson.Day, v.OrderNumber)
+			if err != nil {
+				helpers.HandleError(c, 400, err.Error())
+				return
+			}
+		}
+	}
+
+	c.JSON(http.StatusOK, gin.H{
+		"status":  true,
+		"message": "data successfully updated",
+	})
+
+}

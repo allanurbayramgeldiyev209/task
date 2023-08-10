@@ -25,6 +25,7 @@ func Routes() *gin.Engine {
 		api.POST("resgiter", controllers.RegisterUser)
 		api.POST("login", controllers.LoginUser)
 		api.GET("lessons", middlewares.CheckUser(), controllers.GetLessons)
+		api.PUT("lessons", middlewares.CheckUser(), controllers.UpdateLessons)
 
 	}
 
