@@ -21,7 +21,7 @@ func Routes() *gin.Engine {
 
 	api := routes.Group("/api")
 	{
-		api.POST("login", controllers.LoginCustomer)
+		api.POST("resgiter", controllers.RegisterUser)
 	}
 
 	return routes
