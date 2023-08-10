@@ -42,14 +42,14 @@ func RegisterUser(c *gin.Context) {
 	}
 
 	// parol hashlenyan
-	hashPassword, err := helpers.HashPassword(customer.Password)
+	hashPassword, err := helpers.HashPassword(user.Password)
 	if err != nil {
 		helpers.HandleError(c, 400, err.Error())
 		return
 	}
 
-	// hemme zat yerbe yer bolsa maglumatlar customers tablisa gosulyar
-	_, err = db.Exec(context.Background(), "INSERT INTO customers (full_name,phone_number,password) VALUES ($1,$2,$3)", customer.FullName, customer.PhoneNumber, hashPassword)
+	// hemme zat yerbe yer bolsa maglumatlar users tablisa gosulyar
+	_, err = db.Exec(context.Background(), "INSERT INTO users (phone_number,password) VALUES ($1,$2)", user.PhoneNumber, hashPassword)
 	if err != nil {
 		helpers.HandleError(c, 400, err.Error())
 		return
@@ -57,8 +57,7 @@ func RegisterUser(c *gin.Context) {
 
 	c.JSON(http.StatusOK, gin.H{
 		"status":       true,
-		"phone_number": customer.PhoneNumber,
-		"full_name":    customer.FullName,
+		"phone_number": user.PhoneNumber,
 	})
 
 }
