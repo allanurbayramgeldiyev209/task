@@ -14,7 +14,7 @@ import (
 
 var JwtKey = []byte(os.Getenv("JWT_SECRET_KEY"))
 
-type JWTClaimForAdmin struct {
+type JWTClaimForUser struct {
 	PhoneNumber string `json:"phone_number"`
 	UserID      string `json:"user_id"`
 	jwt.StandardClaims
@@ -28,7 +28,7 @@ func GenerateAccessTokenForUser(phoneNumber, userID string) (string, string, err
 	}
 	expirationTimeAccessToken := time.Now().Add(time.Duration(accessTokenTimeOut) * time.Second)
 
-	claimsAccessToken := &JWTClaimForAdmin{
+	claimsAccessToken := &JWTClaimForUser{
 		PhoneNumber: phoneNumber,
 		UserID:      userID,
 		StandardClaims: jwt.StandardClaims{
@@ -46,7 +46,7 @@ func GenerateAccessTokenForUser(phoneNumber, userID string) (string, string, err
 		return "", "", err
 	}
 	expirationTimeRefreshToken := time.Now().Add(time.Duration(refreshTokenTimeOut) * time.Second)
-	claimsRefreshToken := &JWTClaimForAdmin{
+	claimsRefreshToken := &JWTClaimForUser{
 		PhoneNumber: phoneNumber,
 		UserID:      userID,
 		StandardClaims: jwt.StandardClaims{
@@ -78,7 +78,7 @@ func RefreshTokenForAdmin(c *gin.Context) {
 
 	token, err := jwt.ParseWithClaims(
 		tokenString,
-		&JWTClaimForAdmin{},
+		&JWTClaimForUser{},
 		func(token *jwt.Token) (interface{}, error) {
 			return []byte(JwtKey), nil
 		},
@@ -91,7 +91,7 @@ func RefreshTokenForAdmin(c *gin.Context) {
 		return
 	}
 
-	claims, ok := token.Claims.(*JWTClaimForAdmin)
+	claims, ok := token.Claims.(*JWTClaimForUser)
 
 	if !ok {
 		c.JSON(http.StatusBadRequest, gin.H{
