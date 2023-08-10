@@ -1,6 +1,8 @@
 package routes
 
 import (
+	"task/controllers"
+
 	"github.com/gin-contrib/cors"
 	"github.com/gin-gonic/gin"
 )
@@ -17,11 +19,10 @@ func Routes() *gin.Engine {
 		// MaxAge:           12 * time.Hour,
 	}))
 
-	// api := routes.Group("/api")
-	// {
-	// 	api.POST("login", controllers.LoginCustomer)
-
-	// }
+	api := routes.Group("/api")
+	{
+		api.POST("login", controllers.LoginCustomer)
+	}
 
 	return routes
 }
