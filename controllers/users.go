@@ -56,7 +56,7 @@ func RegisterUser(c *gin.Context) {
 
 }
 
-func LoginCustomer(c *gin.Context) {
+func LoginUser(c *gin.Context) {
 
 	db, err := config.ConnDB()
 	if err != nil {
@@ -104,17 +104,10 @@ func LoginCustomer(c *gin.Context) {
 		return
 	}
 
-	// front tarapa ugratmak ucin admin - in id - si boyunca maglumatlary get edilyar
-	adm, err := GetCustomerByID(id)
-	if err != nil {
-		helpers.HandleError(c, 400, err.Error())
-		return
-	}
-
 	c.JSON(http.StatusOK, gin.H{
 		"access_token":  accessTokenString,
 		"refresh_token": refreshTokenString,
-		"admin":         adm,
+		"phone_number":  user.PhoneNumber,
 	})
 
 }
