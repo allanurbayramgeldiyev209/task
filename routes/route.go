@@ -2,6 +2,7 @@ package routes
 
 import (
 	"task/controllers"
+	"task/middlewares"
 
 	"github.com/gin-contrib/cors"
 	"github.com/gin-gonic/gin"
@@ -22,8 +23,8 @@ func Routes() *gin.Engine {
 	api := routes.Group("/api")
 	{
 		api.POST("resgiter", controllers.RegisterUser)
-
 		api.POST("login", controllers.LoginUser)
+		api.GET("lessons", middlewares.CheckUser(), controllers.GetLessons)
 
 	}
 

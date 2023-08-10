@@ -2,6 +2,7 @@ package controllers
 
 import (
 	"context"
+	"database/sql"
 	"net/http"
 	"task/config"
 	"task/models"
@@ -10,6 +11,11 @@ import (
 
 	"github.com/gin-gonic/gin"
 )
+
+type LessonResponse struct {
+	Day     int             `json:"day"`
+	Lessons []models.Lesson `json:"lessons"`
+}
 
 func RegisterUser(c *gin.Context) {
 
@@ -108,6 +114,73 @@ func LoginUser(c *gin.Context) {
 		"access_token":  accessTokenString,
 		"refresh_token": refreshTokenString,
 		"phone_number":  user.PhoneNumber,
+	})
+
+}
+
+func GetLessons(c *gin.Context) {
+
+	db, err := config.ConnDB()
+	if err != nil {
+		helpers.HandleError(c, 400, err.Error())
+		return
+	}
+	defer db.Close()
+
+	usrID, hasUser := c.Get("user_id")
+	if !hasUser {
+		helpers.HandleError(c, 400, "user_id is required")
+		return
+	}
+	userID, ok := usrID.(string)
+	if !ok {
+		helpers.HandleError(c, 400, "user_id must be string")
+		return
+	}
+
+	var responses []LessonResponse
+	rowsDay, err := db.Query(context.Background(), "SELECT DISTINCT(day_number) FROM lessons WHERE user_id = $1 AND deleted_at IS NULL ORDER BY day_number ASC", userID)
+	if err != nil {
+		helpers.HandleError(c, 400, err.Error())
+		return
+	}
+	defer rowsDay.Close()
+
+	for rowsDay.Next() {
+		var response LessonResponse
+		if err := rowsDay.Scan(&response.Day); err != nil {
+			helpers.HandleError(c, 400, err.Error())
+			return
+		}
+
+		rowsLesson, err := db.Query(context.Background(), "SELECT order_number,name FROM lessons WHERE user_id = $1 AND day_number = $2 AND deleted_at IS NULL ORDER BY order_number ASC", userID, response.Day)
+		if err != nil {
+			helpers.HandleError(c, 400, err.Error())
+			return
+		}
+		defer rowsLesson.Close()
+
+		for rowsLesson.Next() {
+			var lesson models.Lesson
+			var lessonName sql.NullString
+			if err := rowsLesson.Scan(&lesson.OrderNumber, &lessonName); err != nil {
+				helpers.HandleError(c, 400, err.Error())
+				return
+			}
+
+			if lessonName.String == "" {
+				lesson.Name = "null"
+			} else {
+				lesson.Name = lessonName.String
+			}
+			response.Lessons = append(response.Lessons, lesson)
+		}
+		responses = append(responses, response)
+	}
+
+	c.JSON(http.StatusOK, gin.H{
+		"status":         true,
+		"weekle_lessons": responses,
 	})
 
 }
