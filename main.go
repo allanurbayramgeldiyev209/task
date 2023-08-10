@@ -2,7 +2,9 @@ package main
 
 import (
 	"log"
+	"os"
 	"task/config"
+	"task/routes"
 
 	"github.com/joho/godotenv"
 )
@@ -20,4 +22,15 @@ func main() {
 	}
 	defer db.Close()
 
+	// Routes Initialize
+	r := routes.Routes()
+
+	// static file
+	os.Mkdir("./uploads", os.ModePerm)
+	r.Static("/uploads", "./uploads")
+
+	// run routes
+	if err := r.Run(":7723"); err != nil {
+		log.Fatal(err)
+	}
 }
